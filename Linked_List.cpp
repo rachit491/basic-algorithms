@@ -120,6 +120,23 @@ void reverseInPlace(Node **root) {
     *root = prev;
 }
 
+bool findLoop() {
+    if(root == NULL) {
+        return root;
+    }
+    Node *slow = root;
+    Node *fast = root;
+    Node *faster = root;
+
+    while(slow && (fast = faster->next) && (faster = fast->next)) {
+        if(slow == fast || slow == faster) {
+            return true;
+        }
+        slow = slow->next;
+    }
+    return false;
+}
+
 int main() {
     int i, n, input;
     Node *prev;
@@ -152,8 +169,11 @@ int main() {
     insertAt(input, n);
     printList();
     
+    cout<<"After reverse, ";
     reverseInPlace(&root);
     printList();
+
+    cout<<"Loop exists: " << findLoop() << endl;
 
     return 0;
 }
