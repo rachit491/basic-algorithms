@@ -22,6 +22,26 @@ void printList() {
     cout<<endl;
 }
 
+void deleteNthFromList(int pos) {
+    //considering list as 1 indexed, so pos equals 1 means first element ie. root
+    int counter = 1;
+    Node *tmp = root;
+    Node *prev;
+    if(pos == counter) {
+        root = root->next;
+        delete(tmp);
+    } else {
+        while(counter != pos) {
+            prev = tmp;
+            tmp = tmp->next;
+            counter++;
+        }
+        prev->next = tmp->next;
+        tmp->next = NULL;
+        delete(tmp);
+    }
+}
+
 void deleteFromList(int value) {
     //delete from list in O(n), deletes the first occurance of that number
     Node *tmp = root, *prev;
@@ -164,7 +184,7 @@ int main() {
     
     cout<<"Insert value: ";
     cin>>input;
-    cout<<"Position: ";
+    cout<<"Position (1 indexed): ";
     cin>>n;
     insertAt(input, n);
     printList();
@@ -174,6 +194,11 @@ int main() {
     printList();
 
     cout<<"Loop exists: " << findLoop() << endl;
+    
+    cout<<"Enter position to delete (1 indexed): ";
+    cin>>input;
+    deleteNthFromList(input);
+    printList();
 
     return 0;
 }
