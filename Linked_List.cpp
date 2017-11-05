@@ -125,9 +125,30 @@ void insertAt(int val, int pos) {
     tmp->next = node;
 }
 
-void reverseInPlace(Node **root) {
+Node* kReverse(Node* root, int k) {
     Node *prev = NULL;
-    Node *curr = *root;
+    Node *curr = root;
+    Node *next;
+    int counter = 0;
+    
+    while(curr && counter < k) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+        counter++;
+    }
+    
+    if(next != NULL) {
+        root->next = kReverse(next, k);
+    }
+    
+    return prev;
+}
+
+Node* reverseInPlace() {
+    Node *prev = NULL;
+    Node *curr = root;
     Node *next;
     
     while(curr) {
@@ -137,7 +158,7 @@ void reverseInPlace(Node **root) {
         curr = next;
     }
     
-    *root = prev;
+    return prev;
 }
 
 bool findLoop() {
@@ -182,15 +203,15 @@ int main() {
     //deleteAllFromList(input);
     //printList();
     
-    cout<<"Insert value: ";
-    cin>>input;
-    cout<<"Position (1 indexed): ";
-    cin>>n;
-    insertAt(input, n);
-    printList();
+    //cout<<"Insert value: ";
+    //cin>>input;
+    //cout<<"Position (1 indexed): ";
+    //cin>>n;
+    //insertAt(input, n);
+    //printList();
     
     cout<<"After reverse, ";
-    reverseInPlace(&root);
+    root = reverseInPlace();
     printList();
 
     cout<<"Loop exists: " << findLoop() << endl;
@@ -198,6 +219,12 @@ int main() {
     cout<<"Enter position to delete (1 indexed): ";
     cin>>input;
     deleteNthFromList(input);
+    printList();
+    
+    cout<<"Enter k value for k-Reverse: ";
+    cin>>input;
+    cout<<"After "<<input<<"-reverse, ";
+    root = kReverse(root, input);
     printList();
 
     return 0;
