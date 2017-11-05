@@ -12,6 +12,18 @@ public:
     }
 } *root;
 
+class NodeD {
+public:
+    int value;
+    NodeD* next;
+    NodeD* prev;
+    NodeD(int value) {
+        this->value = value;
+        next = NULL;
+        prev = NULL;
+    }
+} *rootD;
+
 /*
 In singly linked list, the core node usually contains a pointer that points to the next node, and an element.
 
@@ -46,8 +58,30 @@ void printList(Node* head) {
     cout<<endl;
 }
 
+void printDList(NodeD* head) {
+    NodeD *tmp = head;
+    cout<<"The doubly list is: ";
+    while(tmp) {
+        cout<<tmp->value<<" ";
+        tmp = tmp->next;
+    }
+    cout<<endl;
+}
+
 void doublyLinkedList() {
-    
+    Node* tmp = root;
+    NodeD* tmpD;
+    while(tmp) {
+        NodeD* node = new NodeD(tmp->value);
+        if(rootD == NULL) {
+            rootD = node;
+        } else {
+            tmpD->next = node;
+            node->prev = tmpD;
+        }
+        tmpD = node;
+        tmp = tmp->next;
+    }
 }
 
 int main() {
@@ -67,11 +101,11 @@ int main() {
         prev = node;
     }
 
-    printList();
+    printList(root);
     
-    //makeDoublyLL
-    doublyLinkedList();
-    printList();
+    doublyLinkedList();     //makeDoublyLL
+    
+    printDList(rootD);
 
     return 0;
 }
