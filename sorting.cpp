@@ -21,8 +21,8 @@ void bubbleSort(vector<int> &arr) {
     }
 }
 
-//insertion sort ascending
-void insertionSort(vector<int> &arr) {
+//selection sort ascending
+void selectionSort(vector<int> &arr) {
     int i, j;
     for(i=0; i<arr.size(); i++) {
         for(j=i+1; j<arr.size(); j++) {
@@ -47,7 +47,7 @@ int main() {
     }
     
     bubbleSort(arr);
-    insertionSort(arr);
+    selectionSort(arr);
     
     cout<<"Sorted: ";
     for(i=0; i<arr.size(); i++) {
