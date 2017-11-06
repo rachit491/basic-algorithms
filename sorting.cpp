@@ -5,10 +5,28 @@ using namespace std;
 
 //bubble sort ascending
 void bubbleSort(vector<int> &arr) {
+    int i, j, n = arr.size();
+    bool swapped;
+    for(i=0; i<n-1; i++) {
+        swapped = false;
+        for(j=0; j<n-i-1; j++) {
+            if(arr[j] > arr[j+1]) {
+                swap(arr[j], arr[j+1]);
+                swapped = true;
+            }
+        }
+        if(!swapped) {
+            break;
+        }
+    }
+}
+
+//insertion sort ascending
+void insertionSort(vector<int> &arr) {
     int i, j;
     for(i=0; i<arr.size(); i++) {
-        for(j=0; j<arr.size(); j++) {
-            if(arr[i] < arr[j]) {
+        for(j=i+1; j<arr.size(); j++) {
+            if(arr[i] > arr[j]) {
                 swap(arr[i], arr[j]);
             }
         }
@@ -29,6 +47,7 @@ int main() {
     }
     
     bubbleSort(arr);
+    insertionSort(arr);
     
     cout<<"Sorted: ";
     for(i=0; i<arr.size(); i++) {
