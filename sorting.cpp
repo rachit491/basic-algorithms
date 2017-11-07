@@ -47,6 +47,60 @@ void insertionSort(vector<int> &arr) {
     }
 }
 
+//mergeSort
+void merge(vector<int> &arr, int l, int mid, int r) {
+    int i, j, k;
+    vector<int> a, b;
+    int n1 = mid - l + 1;
+    int n2 = r - mid;
+
+    for(i=0; i<n1; i++) {
+        a.push_back(arr[l+i]);
+    }
+
+    for(i=0; i<n2; i++) {
+        b.push_back(arr[mid+i+1]);
+    }
+
+    i=0;
+    j=0;
+    k=l;
+    
+    while(i < n1 && j < n2) {
+        if(a[i] <= b[j]) {
+            arr[k] = a[i];
+            i++;
+        } else {
+            arr[k] = b[j];
+            j++;
+        }
+        k++;
+    }
+
+    while(i<n1) {
+        arr[k] = a[i];
+        i++;
+        k++;
+    }
+
+    while(j<n2) {
+        arr[k] = b[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(vector<int> &arr, int l, int r) {
+    if (l < r) {
+        int mid = l + (r-l)/2;
+
+        mergeSort(arr, l, mid);
+        mergeSort(arr, mid+1, r);
+
+        merge(arr, l, mid, r);
+    }
+}
+
 int main() {
     int i, n;
     cout<<"Input number of inputs: ";
@@ -60,9 +114,11 @@ int main() {
         n--;
     }
     
-    bubbleSort(arr);
-    selectionSort(arr);
-    insertionSort(arr);
+    //bubbleSort(arr);
+    //selectionSort(arr);
+    //insertionSort(arr);
+
+    mergeSort(arr, 0, arr.size()-1);
     
     cout<<"Sorted: ";
     for(i=0; i<arr.size(); i++) {
