@@ -101,6 +101,31 @@ void mergeSort(vector<int> &arr, int l, int r) {
     }
 }
 
+//quick sort
+int partition(vector<int> &arr, int p, int r) {
+    int i = p-1;
+
+    for(int j=p; j<r; j++) {
+        if(arr[j] <= arr[r]) {              //Considering pivot as last element in array
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    
+    swap(arr[i+1], arr[r]);
+
+    return (i+1);
+}
+
+void quickSort(vector<int> &arr, int p, int r) {
+    if(p < r) {
+        int q = partition(arr, p, r);
+
+        quickSort(arr, p, q-1);
+        quickSort(arr, q+1, r);
+    }
+}
+
 int main() {
     int i, n;
     cout<<"Input number of inputs: ";
@@ -119,6 +144,7 @@ int main() {
     //insertionSort(arr);
 
     mergeSort(arr, 0, arr.size()-1);
+    quickSort(arr, 0, arr.size()-1);
     
     cout<<"Sorted: ";
     for(i=0; i<arr.size(); i++) {
