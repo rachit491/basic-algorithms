@@ -27,10 +27,12 @@ public:
     bool checkCombo(int x, int y) {
         bool rowWin = false;
         bool columnWin = false;
-        int r = 0, c = 0;
+        bool diagonalWin = false;
+        int i, r = 0, c = 0, dl = 0, dr = 0;
+        
         int val = layout[x][y];
         
-        for(int i=0; i<n; i++) {
+        for(i=0; i<n; i++) {
             if(layout[i][y] == val)
                 r++;
             if(layout[x][i] == val)
@@ -40,7 +42,18 @@ public:
         if(r == n)  rowWin = true;
         if(c == n)  columnWin = true;
         
-        return (rowWin || columnWin);
+        if(x == y || (x+y == n-1)) {
+            for(i=0; i<n; i++) {
+                if(layout[i][i] == val)
+                    dl++;
+                if(layout[i][n-i-1] == val)
+                    dr++;
+            }
+        }
+        
+        if(dr == n || dl == n) diagonalWin = true;
+        
+        return (rowWin || columnWin || diagonalWin);
     }
     
     char getValue(int i, int j) {
@@ -53,16 +66,17 @@ public:
     
     void display() {
         char val;
-        cout<<"~~~~~~~~~~~~~\n";
+        cout<<"    1   2   3  \n";
+        cout<<"  ~~~~~~~~~~~~~\n";
         for(int i=0; i<n; i++) {
             for(int j=0; j<n; j++) {
                 if(j == 0) {
-                    cout<<"| ";
+                    cout<<i+1<<" | ";
                 }
                 val = getValue(i, j);
                 cout<<val<< " | ";
             }
-            cout<<"\n~~~~~~~~~~~~~\n";
+            cout<<"\n  ~~~~~~~~~~~~~\n";
         }
     }
 };
@@ -111,6 +125,8 @@ int main() {
     bool loop = true;
     Grid g = Grid();
     cout<<"#### WELCOME TO TIC-TAC-TOE ####\n\n";
+    g.display();
+    cout<<"\n\n";
     while(true) {
         cout<<"1. Two player mode\n";
         cout<<"2. vs Computer\n";
