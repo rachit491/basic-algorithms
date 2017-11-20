@@ -118,6 +118,22 @@ public:
     }
 };
 
+class Computer : public Player {
+    int id;
+    char mark;
+    int markValue;
+public:    
+    Computer(int id, char v) : Player(id, v) {
+    }
+    
+    int chooseValue(Grid &g) {
+        int x, y;
+        x = rand() % n;
+        y = rand() % n;
+        return putValuesAt(x, y, g) 
+    }
+};
+
 
 int main() {
     int op, chance = 1;
@@ -161,6 +177,10 @@ int main() {
             }
             break;
         } else if(op == 2) {
+            Player p = Player(1, 'X');
+            Computer c = Computer(2, 'O');
+            cout<<"\n\n";
+            cout<<"Player 1 marks X, Player 2 marks O\n";
             break;
         } else {
             cout<<"Invalid option!\n\n";
