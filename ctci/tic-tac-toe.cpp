@@ -90,7 +90,7 @@ public:
         int y = j-1;
         if(g.isAvailable(x, y)) {
             if(g.putValueAt(x, y, markValue)) {
-                cout<<"\nPlayer "<<id<<" wins!!\n";
+                cout<<"\nPLAYER "<<id<<" WINS!!\n";
                 g.display();
                 //winner
                 return 0;
@@ -122,7 +122,7 @@ int main() {
             cout<<"\n\n";
             cout<<"Player 1 marks X, Player 2 marks O\n";
             while(loop) {
-                cout<<"\n\nPlayer "<<chance<<" enter position to place "<<p1.getMark()<<"\n";
+                cout<<"\nPlayer "<<chance<<" enter position to place "<<p1.getMark()<<"\n";
                 cout<<"Row: ";
                 cin>>r;
                 cout<<"Column: ";
