@@ -109,6 +109,7 @@ public:
 	}
 
 	Node* popAt(int stackIndex) {
+		//can have a rollover feature, which might not be a good thing for stack
 		int top = s.size()-1;
 		if(stackIndex-1 >=0 && stackIndex-1 <= top) {
 			return s[stackIndex-1].pop();
