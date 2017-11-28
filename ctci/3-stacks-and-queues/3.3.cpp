@@ -51,6 +51,7 @@ public:
 		Node *tmp = top;
 		top = top->next;
 		tmp->next = NULL;
+		count--;
 		return tmp;
 	}
 
@@ -107,8 +108,17 @@ public:
 		return tmp;
 	}
 
+	Node* popAt(int stackIndex) {
+		int top = s.size()-1;
+		if(stackIndex-1 >=0 && stackIndex-1 <= top) {
+			return s[stackIndex-1].pop();
+		}
+		return NULL;
+	}
+
 	void display() {
-	    cout<<"\n\n LIST \n\n";
+	    
+	    cout<<"\n\n________________\nLIST \n\n";
 		for(int i=0; i<s.size(); i++) {
 			cout<<"Stack No. "<<i+1<<"\n";
 			s[i].display();
@@ -141,7 +151,7 @@ int main() {
 	
 	ss.pop();
 	ss.pop();
-	ss.pop();
+	ss.popAt(1);
 	ss.pop();
 	
 	ss.display();
