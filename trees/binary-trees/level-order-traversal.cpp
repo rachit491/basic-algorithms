@@ -61,7 +61,7 @@ int main() {
 	root->right->right = new Node(7);
 	root->left->left->left = new Node(8);
 	
-	cout<<"Preorder: \n";
+	cout<<"Level Order: \n";
 	levelOrder(root);
 	cout<<"\n";
 	
