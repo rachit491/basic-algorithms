@@ -15,6 +15,10 @@ public:
         }
     }
     
+    int getSize() {
+        return n;
+    }
+    
     bool isAvailable(int i, int j) {
         return (layout[i][j] == 0);
     }
@@ -128,9 +132,9 @@ public:
     
     int chooseValue(Grid &g) {
         int x, y;
-        x = rand() % n;
-        y = rand() % n;
-        return putValuesAt(x, y, g) 
+        x = rand() % g.getSize();
+        y = rand() % g.getSize();
+        return putValuesAt(x, y, g);
     }
 };
 
