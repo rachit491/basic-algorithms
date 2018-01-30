@@ -132,8 +132,9 @@ public:
     
     int chooseValue(Grid &g) {
         int x, y;
-        x = rand() % g.getSize();
-        y = rand() % g.getSize();
+        x = (rand() % g.getSize())+1;
+        y = (rand() % g.getSize())+1;
+        cout<<"\nComputer placed O at "<<x<<" x "<<y<<"\n";
         return putValuesAt(x, y, g);
     }
 };
@@ -182,9 +183,31 @@ int main() {
             break;
         } else if(op == 2) {
             Player p = Player(1, 'X');
-            Computer c = Computer(2, 'O');
+            Computer cp = Computer(2, 'O');
             cout<<"\n\n";
-            cout<<"Player 1 marks X, Player 2 marks O\n";
+            cout<<"Player 1 marks X, Computer marks O\n";
+            while(loop) {
+                if(chance == 1) {
+                    cout<<"\nPlayer 1 enter position to place "<<p.getMark()<<"\n";
+                    cout<<"Row: ";
+                    cin>>r;
+                    cout<<"Column: ";
+                    cin>>c;
+                    switch(p.putValuesAt(r, c, g)) {
+                        case 0: loop = false; break;
+                        case 1: chance = 2; break;
+                    }
+                } else if(chance == 2) {
+                    switch(cp.chooseValue(g)) {
+                        case 0: loop = false; break;
+                        case 1: chance = 1; break;
+                    }
+                }
+                else {
+                    //invalid entry, same player's turn
+                    loop = true;
+                }
+            }
             break;
         } else {
             cout<<"Invalid option!\n\n";
