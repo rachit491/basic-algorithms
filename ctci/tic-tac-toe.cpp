@@ -89,10 +89,12 @@ class Player {
     int id;
     char mark;
     int markValue;
+    char type;
 public:
     Player(int id, char m) {
         this->id = id;
         this->mark = m;
+        this->type = 'p';
         switch(m) {
             case 'X' : markValue = 1; break;
             case 'O' : markValue = 2; break;
@@ -108,7 +110,10 @@ public:
         int y = j-1;
         if(g.isAvailable(x, y)) {
             if(g.putValueAt(x, y, markValue)) {
-                cout<<"\nPLAYER "<<id<<" WINS!!\n";
+                switch(type) {
+                    case 'p': cout<<"\nPLAYER "<<id<<" WINS!!\n"; break;
+                    case 'c': cout<<"\nCOMPUTER WINS!!\n"; break;
+                }
                 g.display();
                 //winner
                 return 0;
@@ -132,10 +137,14 @@ public:
     
     int chooseValue(Grid &g) {
         int x, y;
-        x = (rand() % g.getSize())+1;
-        y = (rand() % g.getSize())+1;
+        x = (rand() % g.getSize());
+        y = (rand() % g.getSize());
+        while(!g.isAvailable(x, y)) {
+            x = (rand() % g.getSize());
+            y = (rand() % g.getSize());
+        }
         cout<<"\nComputer placed O at "<<x<<" x "<<y<<"\n";
-        return putValuesAt(x, y, g);
+        return putValuesAt(x+1, y+1, g);
     }
 };
 
