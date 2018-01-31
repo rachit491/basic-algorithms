@@ -73,7 +73,10 @@ public:
             cout<<char(i+65)<<" | ";
             for(int j=0; j<m; j++) {
                 if(showValue(i,j))
-                    cout<<field[i][j].second<<" ";
+                    if(field[i][j].second == 9)
+                        cout<<"* ";
+                    else
+                        cout<<field[i][j].second<<" ";
                 else 
                     cout<<"- ";
             }
@@ -84,13 +87,73 @@ public:
             cout<<"--";
         cout<<"---\n";
     }
+    
+    bool isValid(int x, int y) {
+        return (x>=0 && y>=0 && x<n && y<m);
+    }
 
-    void pop(int x, int y) {
+    bool isMine(int x, int y) {
+        return field[x][y].second == 9;
+    }
+    
+    bool isOn(int x, int y) {
+        return (field[x][y].first);
+    }
+    
+    bool setOn(int x, int y) {
+        //if mine triggered
+        if(isMine(x, y)) {
+            for(int i=0; i<n; i++) {
+                for(int j=0; j<m; j++) {
+                    if(field[i][j].second == 9) {
+                        field[i][j].first = true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        //if number > 0 triggered
+        if(field[x][y].second > 0) {
+            field[x][y].first = true;
+            return true;
+        }
+        
+        field[x][y].first = true;
+        if(isValid(x-1, y))
+            if(!isMine(x-1, y) && !isOn(x-1, y))
+                setOn(x-1, y);
+        if(isValid(x+1, y))
+            if(!isMine(x+1, y) && !isOn(x+1, y))
+                setOn(x+1, y);
+        if(isValid(x-1, y-1))
+            if(!isMine(x-1, y-1) && !isOn(x-1, y-1))
+                setOn(x-1, y-1);
+        if(isValid(x-1, y+1))
+            if(!isMine(x-1, y+1) && !isOn(x-1, y+1))
+                setOn(x-1, y+1);
+        if(isValid(x+1, y-1))
+            if(!isMine(x+1, y-1) && !isOn(x+1, y-1))
+                setOn(x+1, y-1);
+        if(isValid(x+1, y+1))
+            if(!isMine(x+1, y+1) && !isOn(x+1, y+1))
+                setOn(x+1, y+1);
+        if(isValid(x, y+1))
+            if(!isMine(x, y+1) && !isOn(x, y+1))
+                setOn(x, y+1);
+        if(isValid(x, y-1))
+            if(!isMine(x, y-1) && !isOn(x, y-1))
+                setOn(x, y-1);
+        
+        return true;
+    }
+
+    int pop(int x, int y) {
         if(x>=n || y>=m) {
             cout<<"\nInvalid input!\n";
-            return;
-        }
-        field[x][y].first = true;
+            return -1;
+        } 
+        return setOn(x,y) ? 1:0;
     }
 };
 
@@ -127,8 +190,11 @@ int main() {
         x = int(toupper(input[0]))-65;
         y = int(toupper(input[1]))-65;
         cout<<x<<"-"<<y<<"\n";
-        f.pop(x, y);
-        f.displayField();
+        switch(f.pop(x, y)) {
+            case 0: loop = false; f.displayField(); cout<<"\nYou Lose!\n"; break;
+            case 1: 
+            default: f.displayField(); break;
+        }
     }
     
     return 0;
