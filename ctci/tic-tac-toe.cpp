@@ -6,6 +6,7 @@ using namespace std;
 
 class Grid {
     int n = 3;
+    int empty = 9;
     vector<vector<int>> layout;
 public:
     Grid() {
@@ -23,8 +24,13 @@ public:
         return (layout[i][j] == 0);
     }
     
+    bool isComplete() {
+        return (empty == 0);
+    }
+    
     bool putValueAt(int i, int j, int value) {
         layout[i][j] = value;
+        --empty;
         return checkCombo(i, j);
     }
     
@@ -123,6 +129,10 @@ public:
             return -1;
         }
         g.display();
+        if(g.isComplete()) {
+            cout<<"\nDRAW!\n";
+            return 0;
+        }
         return 1;
     }
 };
