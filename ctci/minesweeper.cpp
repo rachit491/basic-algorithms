@@ -26,13 +26,13 @@ public:
 
     void setupMines() {
         int count = 0;
-        for(int i=0; i<n; i++) {
-            for(int j=0; j<m; j++) {
-                if(randomBool()) {
-                    field[i][j].second = 9;
-                    count++;
-                } 
-                if(count == mines) return;
+        while(count < mines) {
+            int random = rand() % (n*m);
+            int x = random / n;
+            int y = random % m;
+            if(!isMine(x,y)) {
+                field[x][y].second = 9;
+                count++;
             }
         }
     }
