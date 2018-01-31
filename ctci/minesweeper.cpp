@@ -7,6 +7,7 @@ using namespace std;
 class Field {
     int n, m, mines;
     vector<vector<pair<bool,int>>> field;
+    vector<pair<int, int>> flagged;
 
 public:
     Field(int n, int m, int mines) {
@@ -72,13 +73,17 @@ public:
         for(int i=0; i<n; i++) {
             cout<<char(i+65)<<" | ";
             for(int j=0; j<m; j++) {
-                if(showValue(i,j))
-                    if(field[i][j].second == 9)
-                        cout<<"* ";
-                    else
-                        cout<<field[i][j].second<<" ";
-                else 
-                    cout<<"- ";
+                if(isFlagged(i,j)) {
+                    cout<<"F ";
+                } else {
+                    if(showValue(i,j))
+                        if(field[i][j].second == 9)
+                            cout<<"* ";
+                        else
+                            cout<<field[i][j].second<<" ";
+                    else 
+                        cout<<"- ";
+                }
             }
             cout<<"|\n";
         }
@@ -98,6 +103,18 @@ public:
     
     bool isOn(int x, int y) {
         return (field[x][y].first);
+    }
+    
+    void setFlag(int x, int y) {
+        flagged.push_back(make_pair(x, y));
+    }
+    
+    bool isFlagged(int x, int y) {
+        for(int i=0; i<flagged.size(); i++) {
+            if(x == flagged[i].first && y == flagged[i].second)
+                return true;
+        }
+        return false;
     }
     
     bool setOn(int x, int y) {
@@ -155,6 +172,22 @@ public:
         } 
         return setOn(x,y) ? 1:0;
     }
+    
+    bool checkWin() {
+        int count = 0;
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<m; j++) {
+                if(field[i][j].first == true && !isMine(i,j)) {
+                    count++;
+                }
+            }
+        }
+        if(count == (n*m - mines)) {
+            cout<<"\nYOU WIN !!\n";
+            return true;
+        }
+        return false;
+    }
 };
 
 
@@ -185,15 +218,22 @@ int main() {
     bool loop = true;
     int x, y;
     while(loop) {
-        cout<<"Enter Co-ordinates (row x column.. eg. AC): ";
+        cout<<"Enter Co-ordinates (row x column.. eg. AC, preceed with $ to flag mine): ";
         cin>>input;
-        x = int(toupper(input[0]))-65;
-        y = int(toupper(input[1]))-65;
-        cout<<x<<"-"<<y<<"\n";
-        switch(f.pop(x, y)) {
-            case 0: loop = false; f.displayField(); cout<<"\nYou Lose!\n"; break;
-            case 1: 
-            default: f.displayField(); break;
+        if(input[0] != '$') {
+            x = int(toupper(input[0]))-65;
+            y = int(toupper(input[1]))-65;
+            cout<<x<<"-"<<y<<"\n";
+            switch(f.pop(x, y)) {
+                case 0: loop = false; f.displayField(); cout<<"\nYOU LOSE !!\n"; break;
+                case 1: loop = !f.checkWin();
+                default: f.displayField(); break;
+            }
+        } else {
+            x = int(toupper(input[1]))-65;
+            y = int(toupper(input[2]))-65;
+            f.setFlag(x, y);
+            f.displayField();
         }
     }
     
