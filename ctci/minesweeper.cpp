@@ -7,8 +7,7 @@ bool randomBool() {
    return rand() > (RAND_MAX / 2);
 }
 
-void setupMines(vector<vector<int>> &field, int size) {
-    int mines = 10;
+void setupMines(vector<vector<int>> &field, int mines) {
     int count = 0;
     for(int i=0; i<field.size(); i++) {
         for(int j=0; j<field[i].size(); j++) {
@@ -60,10 +59,17 @@ void displayField(vector<vector<int>> field) {
 }
 
 int main() {
-    int n, m;
-    cout<<"Enter rows x columns : ";
-    cin>>n>>m;
-    n=m=9;
+    int n, m, mines, choice;
+    cout<<"1. Easy (9x9, 10mines)\n2. Medium (16x15, 40mines)\n3. Hard (16x30, 99mines)\n\n";
+    cout<<"Enter Level: ";
+    cin>>choice;
+
+    switch(choice) {
+        case 1: n=m=9; mines=10; break;
+        case 2: n=16; m=15; mines=40; break;
+        case 3: n=16; m=30; mines=99; break;
+        default: cout<<"\nStarting Easy Level\n"; n=m=9; break;
+    }
     
     vector<vector<int>> field;
     field.resize(n, vector<int>(n));
@@ -71,7 +77,7 @@ int main() {
         field[i].resize(m, 0);
     }
     
-    setupMines(field, n*m);
+    setupMines(field, mines);
     
     setupHints(field);
     
