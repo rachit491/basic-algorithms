@@ -22,6 +22,15 @@ public:
 	}
 };
 
+class Computer : public Player {
+public:
+    Computer(int pid, char sym) : Player(pid, sym) { }
+    
+    int getPosition(int limit) {
+        return (rand() % limit) + 1;
+    }
+};
+
 class Board {
 	int n = 7;	//board dimensions
 	vector<vector<char>> board;
@@ -128,7 +137,10 @@ int main() {
     cout<<"Enter you choice: ";
     cin>>op;
 	
-    if(op == 2) {
+	if(op == 1) {
+	    p.push_back(Computer(2, '*'));
+	}
+    else if(op == 2) {
         p.push_back(Player(2, '@'));
         cout<<"\n";
         cout<<"Player 1 symbol will be \'"<<p[0].getSymbol()<<"\'\n";
@@ -144,7 +156,11 @@ int main() {
 	
 	while(loop) {
         cout<<"Player "<<(alt%2)+1<<", pick a position (1-7): ";
-        cin>>pos;
+        if(op == 2)
+            cin>>pos;
+        else {
+            pos = (Computer) p[alt%2].getPosition();
+        }
         if(pos>0 && pos<8) {
             switch(b.setPieceAt(pos-1, p[alt%2])) {
                 case 0:
