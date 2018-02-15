@@ -139,8 +139,6 @@ public:
 
 class Computer : public Player {
     int id;
-    char mark;
-    int markValue;
 public:    
     Computer(int id, char v) : Player(id, v) {
     }
