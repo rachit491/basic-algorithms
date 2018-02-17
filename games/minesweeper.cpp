@@ -14,10 +14,7 @@ public:
         this->n = n;
         this->m = m;
         this->mines = mines;
-        field.resize(n, vector<pair<bool,int>>(n));
-        for(int i=0; i<n; i++) {
-            field[i].resize(m, make_pair(false, 0));
-        }
+        field.resize(n, vector<pair<bool,int>>(m, make_pair(false, 0)));
     }
 
     bool randomBool() {
