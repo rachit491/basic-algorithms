@@ -34,7 +34,7 @@ void deleteNthFromList(int pos) {
         while(counter != pos) {
             prev = tmp;
             tmp = tmp->next;
-            counter++;
+            ++counter;
         }
         prev->next = tmp->next;
         tmp->next = NULL;
@@ -94,7 +94,7 @@ int listLength() {
     Node* tmp = root;
     while(tmp) {
         tmp = tmp->next;
-        len++;
+        ++len;
     }
     return len;
 }
@@ -118,7 +118,7 @@ void insertAt(int val, int pos) {
     }
     while(i < pos-1) {
         tmp = tmp->next;
-        i++;
+        ++i;
     }
     Node *node = new Node(val);
     node->next = tmp->next;
@@ -136,7 +136,7 @@ Node* kReverse(Node* root, int k) {
         curr->next = prev;
         prev = curr;
         curr = next;
-        counter++;
+        ++counter;
     }
     
     if(next != NULL) {
@@ -161,6 +161,36 @@ Node* reverseInPlace() {
     return prev;
 }
 
+Node* reverseSublist(int start, int end) {
+    Node *prev = NULL;
+    Node *curr = root;
+    Node *next, *store;
+    int counter = 1;
+    
+    while(counter < start) {
+        store = curr;
+        curr = curr->next;
+        ++counter;
+    }
+    
+    while(curr && counter <= end) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+        ++counter;
+    }
+    
+    if(store) {
+        store->next->next = next;
+        store->next = prev;
+    } else {
+        return prev;
+    }
+    
+    return root;
+}
+
 bool findLoop() {
     if(root == NULL) {
         return root;
@@ -183,7 +213,7 @@ int main() {
     Node *prev;
     cout<<"Input n: ";
     cin>>n;
-    for(i=0;i<n;i++) {
+    for(i = 0; i < n; ++i) {
         cin>>input;
         Node *node = new Node(input);
         if(root == NULL) {
@@ -210,21 +240,29 @@ int main() {
     //insertAt(input, n);
     //printList();
     
-    cout<<"After reverse, ";
-    root = reverseInPlace();
-    printList();
+    // cout<<"After reverse, ";
+    // root = reverseInPlace();
+    // printList();
 
-    cout<<"Loop exists: " << findLoop() << endl;
+    // cout<<"Loop exists: " << findLoop() << endl;
     
-    cout<<"Enter position to delete (1 indexed): ";
-    cin>>input;
-    deleteNthFromList(input);
-    printList();
+    // cout<<"Enter position to delete (1 indexed): ";
+    // cin>>input;
+    // deleteNthFromList(input);
+    // printList();
     
-    cout<<"Enter k value for k-Reverse: ";
-    cin>>input;
-    cout<<"After "<<input<<"-reverse, ";
-    root = kReverse(root, input);
+    // cout<<"Enter k value for k-Reverse: ";
+    // cin>>input;
+    // cout<<"After "<<input<<"-reverse, ";
+    // root = kReverse(root, input);
+    // printList();
+    
+    int start, end;
+    
+    cout<<"Enter start and end values for sublist to be reversed: ";
+    cin>>start>>end;
+    cout<<"After reversing Sublist: ";
+    root = reverseSublist(start, end);
     printList();
 
     return 0;
